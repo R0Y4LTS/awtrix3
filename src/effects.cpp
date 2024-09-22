@@ -1054,12 +1054,26 @@ void Fade(FastLED_NeoMatrix *matrix, int16_t x, int16_t y, EffectSettings *setti
     0,0,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,0,0,
     0,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,0,
     60164,60164,60164,60164,0,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,0,60164,60164,60164,60164,
-    0,60164,60164,0,0,0,60164,60164,0,60164,60164,60164,0,60164,60164,0,0,0,60164,60164,0,
-    0,0,0,0,0,0,0,0,0,0,60164,0,0,0,0,0,0,0,0,0,0}};
+    0,60164,0,0,0,0,0,60164,0,60164,60164,60164,0,60164,0,0,0,0,0,60164,0,0,0,0,0,0,0,0,0,0,0,60164,0,0,0,0,0,0,0,0,0,0}};
 
 void Bat(FastLED_NeoMatrix *matrix, int16_t x, int16_t y, EffectSettings *settings)
 {
-    matrix->drawRGBBitmap(6 + x, 0 + y, bat[0], 21, 7);
+    static int16_t yPosition = 0; 
+    static int16_t xPosition = -21;
+    static uint32_t lastUpdate = 0;
+
+    if (millis() - lastUpdate > 200)
+    {
+        lastUpdate = millis();
+        yPosition = (yPosition == 0) ? 1 : 0;
+        ++xPosition;
+        if (xPosition == 33)
+        {
+            xPosition = -21;
+        }
+    }
+
+    matrix->drawRGBBitmap(0 + xPosition, 0 + yPosition, bat[0], 21, 7);
 }
 
 Effect effects[] = {

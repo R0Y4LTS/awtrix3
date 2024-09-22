@@ -36,7 +36,7 @@ enum OverlayEffect
 
 
 
-const int numOfEffects = 19;
+const int numOfEffects = 20;
 extern Effect effects[];
 void callEffect(FastLED_NeoMatrix *matrix, int16_t x, int16_t y, u_int8_t index);
 int getEffectIndex(String name);

@@ -1048,6 +1048,20 @@ void Fade(FastLED_NeoMatrix *matrix, int16_t x, int16_t y, EffectSettings *setti
     }
 }
 
+ uint16_t bat[1][147] = {
+    {0,0,0,0,60164,0,0,0,0,60164,0,60164,0,0,0,0,60164,0,0,0,0,
+    0,0,0,60164,60164,60164,60164,0,0,60164,60164,60164,0,0,60164,60164,60164,60164,0,0,0,
+    0,0,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,0,0,
+    0,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,0,
+    60164,60164,60164,60164,0,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,60164,0,60164,60164,60164,60164,
+    0,60164,60164,0,0,0,60164,60164,0,60164,60164,60164,0,60164,60164,0,0,0,60164,60164,0,
+    0,0,0,0,0,0,0,0,0,0,60164,0,0,0,0,0,0,0,0,0,0}};
+
+void Bat(FastLED_NeoMatrix *matrix, int16_t x, int16_t y, EffectSettings *settings)
+{
+    matrix->drawRGBBitmap(6 + x, 0 + y, bat[0], 21, 7);
+}
+
 Effect effects[] = {
     {"Fade", Fade, EffectSettings(1, RainbowColors_p, true)},
     {"MovingLine", MovingLine, EffectSettings(1, RainbowColors_p, true)},
@@ -1067,7 +1081,8 @@ Effect effects[] = {
     {"SwirlOut", SwirlOut, EffectSettings(5, RainbowColors_p, true)},
     {"LookingEyes", LookingEyes, EffectSettings()},
     {"TwinklingStars", TwinklingStars, EffectSettings(4, OceanColors_p, true)},
-    {"ColorWaves", ColorWaves, EffectSettings(5, RainbowColors_p, true)}};
+    {"ColorWaves", ColorWaves, EffectSettings(5, RainbowColors_p, true)},
+    {"Bat", Bat, EffectSettings()}};
 
 // ######## Helper functions ############
 

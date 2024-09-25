@@ -1076,6 +1076,77 @@ void Bat(FastLED_NeoMatrix *matrix, int16_t x, int16_t y, EffectSettings *settin
     matrix->drawRGBBitmap(0 + xPosition, 0 + yPosition, bat[0], 21, 7);
 }
 
+// ######## HalloweenEyes ############
+
+int hwBlinkIndex[2][5] = {{1, 2, 3, 2, 1}, {5, 6, 3, 6, 5}};
+int hwBlinkCountdown = 60;
+
+uint16_t hwEye[7][48] = {
+    {0,60164,60164,0,0,0,0,0, // left eye
+    60164,60164,60164,60164,60164,0,0,0,
+    60164,60164,60164,60164,60164,60164,60164,0,
+    60164,60164,60164,60164,60164,0,0,60164,
+    60164,60164,60164,60164,60164,0,0,60164,
+    0,60164,60164,60164,60164,60164,60164,0},
+    {0,0,0,0,0,0,0,0,
+    0,60164,60164,0,0,0,0,0, // left eye blink 1
+    60164,60164,60164,60164,60164,0,0,0,
+    60164,60164,60164,60164,60164,60164,60164,0,
+    60164,60164,60164,60164,60164,0,0,60164,
+    0,60164,60164,60164,60164,60164,60164,0},
+    {0,0,0,0,0,0,0,0, // left eye blink 2
+    0,0,0,0,0,0,0,0,
+    0,60164,60164,0,0,0,0,0,
+    60164,60164,60164,60164,60164,0,0,0,
+    60164,60164,60164,60164,60164,60164,60164,0,
+    0,60164,60164,60164,60164,60164,60164,0},
+    {0,0,0,0,0,0,0,0, // left/right eye blink 3
+    0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,
+    60164,60164,60164,60164,60164,60164,60164,60164,
+    0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,60164,60164,0, // right eye
+    0,0,0,60164,60164,60164,60164,60164,
+    0,60164,60164,60164,60164,60164,60164,60164,
+    60164,0,0,60164,60164,60164,60164,60164,
+    60164,0,0,60164,60164,60164,60164,60164,
+    0,60164,60164,60164,60164,60164,60164,0},
+    {0,0,0,0,0,0,0,0, // right eye blink 1
+    0,0,0,0,0,60164,60164,0,
+    0,0,0,60164,60164,60164,60164,60164,
+    0,60164,60164,60164,60164,60164,60164,60164,
+    60164,0,0,60164,60164,60164,60164,60164,
+    0,60164,60164,60164,60164,60164,60164,0},
+    {0,0,0,0,0,0,0,0,  // right eye blink 2
+    0,0,0,0,0,0,0,0,
+    0,0,0,0,0,60164,60164,0,
+    0,0,0,60164,60164,60164,60164,60164,
+    60164,60164,60164,60164,60164,60164,60164,60164,
+    0,60164,60164,60164,60164,60164,60164,0
+    }
+};
+
+void HalloweenEyes(FastLED_NeoMatrix *matrix, int16_t x, int16_t y, EffectSettings *settings)
+{
+    if (hwBlinkCountdown < sizeof(hwBlinkIndex[0]) / sizeof(hwBlinkIndex[0][0]) - 1)
+    {
+        matrix->drawRGBBitmap(6 + x, 0 + y, hwEye[hwBlinkIndex[0][hwBlinkCountdown]], 8, 6);
+        matrix->drawRGBBitmap(18 + x, 0 + y, hwEye[hwBlinkIndex[1][hwBlinkCountdown]], 8, 6);
+    }
+    else
+    {
+        matrix->drawRGBBitmap(6 + x, 0 + y, hwEye[0], 8, 6);
+        matrix->drawRGBBitmap(18 + x, 0 + y, hwEye[4], 8, 6);
+    }
+
+    hwBlinkCountdown = hwBlinkCountdown - 0.1;
+    if (hwBlinkCountdown == 0)
+    {
+        hwBlinkCountdown = random(60, 350);
+    }
+}
+
 Effect effects[] = {
     {"Fade", Fade, EffectSettings(1, RainbowColors_p, true)},
     {"MovingLine", MovingLine, EffectSettings(1, RainbowColors_p, true)},
@@ -1096,7 +1167,8 @@ Effect effects[] = {
     {"LookingEyes", LookingEyes, EffectSettings()},
     {"TwinklingStars", TwinklingStars, EffectSettings(4, OceanColors_p, true)},
     {"ColorWaves", ColorWaves, EffectSettings(5, RainbowColors_p, true)},
-    {"Bat", Bat, EffectSettings()}};
+    {"Bat", Bat, EffectSettings()},
+    {"HalloweenEyes", HalloweenEyes, EffectSettings()}};
 
 // ######## Helper functions ############
 
